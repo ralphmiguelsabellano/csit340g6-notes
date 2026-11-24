@@ -1,5 +1,5 @@
 import NoteCard from './NoteCard.jsx'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const startingNotes = [
   {
@@ -23,7 +23,8 @@ function Notes() {
   
   
   const [form, setForm] = useState({ title: '', body: '' })
-  const [search, setSearch] = useState('') 
+  const [search, setSearch] = useState('')
+  const titleRef = useRef(null) 
 
   
 
@@ -56,7 +57,8 @@ function Notes() {
     if (!title || !body) return 
 
     setNotes([...notes, { id: Date.now(), title, body }]) 
-    setForm({ title: '', body: '' }) 
+    setForm({ title: '', body: '' })
+    titleRef.current.focus() 
   } 
 
   function handleDelete(id) { 
@@ -87,6 +89,7 @@ function Notes() {
         <form className="grid gap-3" onSubmit={handleSubmit}>
           <p className="text-[13px] font-normal tracking-wide text-[#949494]">NEW NOTE</p>
           <input
+          ref={titleRef}
             name="title"
             placeholder="Title"
             value={form.title} 
